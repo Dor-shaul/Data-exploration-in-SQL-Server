@@ -2,8 +2,8 @@
 
 
 -- select club members details that : 1. Previously got a campaign thru personal media.
---							  2. Never opened a campaign that been sent to their personal media.
---							  3. Never been active in a campaign published on a social media.
+--				      2. Never opened a campaign that been sent to their personal media.
+--				      3. Never been active in a campaign published on a social media.
 
 select distinct c.memberCode, c.firstName + ' ' + c.lastName as fullName,
                DATEDIFF(day,c.joinDate,GETDATE()) seniority
@@ -17,8 +17,8 @@ where month(stm.sendDate) = MONTH(GETDATE())
 
 
 
---select campaigns details that published on social media and got over X likes, Y shares and Z comments. 
---	   (X, Y, Z are parameters obtained from the user)
+-- select campaigns details that published on social media and got over X likes, Y shares and Z comments. 
+-- 	(X, Y, Z are parameters obtained from the user)
 
 declare @X smallint
 set @X = 1000;
@@ -34,8 +34,8 @@ where @X < csm.noOfLikes and csm.NoOfShares > @Y and csm.noOfComments >@Z
 
 
 -- Select the amount of money to each club member in any brand he purchased in the past year 
--- the total spent on purchases at the brand store, average monthly spending and the number of different months in which the store was observed this year. 
--- This data should only be displayed for brand stores where the member have been seen more than 3 times in the past year at the brand store.
+-- 	the total spent on purchases at the brand store, average monthly spending and the number of different months in which the store was observed this year. 
+-- 	This data should only be displayed for brand stores where the member have been seen more than 3 times in the past year at the brand store.
 
 select c.memberCode , c.firstName + ' ' + c.lastName as fullName,
 	   DATEDIFF(year, c.birthdate, GETDATE()) Age, b.* ,sum(m.totalMoney) totalCost, sum(m.totalMoney)/12
@@ -50,8 +50,8 @@ order by fullName, c.memberCode, totalCost
 
 
 -- Select club members details who are in at least one of the two following conditions:
--- Interested in all club brand stores
--- There is an index for them in the current year in all the club brand stores.
+-- 	Interested in all club brand stores
+-- 	There is an index for them in the current year in all the club brand stores.
 
 select c.memberCode , c.firstName + ' ' + c.lastName as fullName
 from tblIntrestedIn i inner join tblClubMember c on i.memberCode = c.memberCode
@@ -67,8 +67,8 @@ having count(distinct m.brandCode) = 10
 
 
 -- Select details of "Strong" brands. A "Strong" brand is
--- A brand whose number of campaigns was the largest last year and the year before.
--- Without using - join !
+-- 	A brand whose number of campaigns was the largest last year and the year before.
+-- 	Without using - join !
 
 select *
 from tblBrand
